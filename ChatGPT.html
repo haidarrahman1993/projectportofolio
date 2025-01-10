@@ -49,45 +49,124 @@
 </head>
 
 <body>
-  <!-- Title -->
-  <section id="title" class="gradient-background">
-    <div class="container col-xxl-8 px-4 pt-5">
-      <div class="row flex-lg-row-reverse align-items-center g-5 pt-5">
-        <div class="col-10 col-sm-8 col-lg-6">
-          <img src="./images/Nikolai_Tesla.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" height="200"
-            loading="lazy">
-        </div>
-        <div class="col-lg-6">
-          <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">"The present is theirs; the future, for which I
-            really worked, is mine." - Nikola Tesla</h1>
-          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <a href="About_Me.html" class="btn btn-light btn-lg px-4 me-md-2">About Me</a>
-            <a href="Other_Project.html" class="btn btn-outline-light btn-lg px-4">Other Projects</a>
+    <!-- Title -->
+    <section id="title" class="gradient-background">
+      <div class="container col-xxl-8 px-4 pt-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 pt-5">
+          <div class="col-10 col-sm-8 col-lg-6">
+            <img src="./images/Nikolai_Tesla.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" height="200"
+              loading="lazy">
           </div>
+          <div class="col-lg-6">
+            <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">"The present is theirs; the future, for which I
+              really worked, is mine." - Nikola Tesla</h1>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <a href="About_Me.html" class="btn btn-light btn-lg px-4 me-md-2">About Me</a>
+              <a href="Other_Project.html" class="btn btn-outline-light btn-lg px-4">Other Projects</a>
+            </div>
+            </div>
           </div>
         </div>
       </div>
+    </section>
+    
+  <div class="container mt-5">
+    <h1 style="color:white">Chat Bot</h1>
+    <div class="chat-box mt-3">
+      <!-- Chat messages will be added here dynamically -->
     </div>
-  </section>
-
-  <!-- Features -->
-  <div id="chat-window">
-    <div class="main-title">CHAT BOT USING CHAT-GPT</div>
-    <div id="chat-messages"></div>
-    <form id="chat-form">
-      <input
-        type="text"
-        id="chat-input"
-        autocomplete="off"
-        placeholder="Type your message here"
-        required
-      />
-      <button type="submit">Send</button>
-    </form>
+    <div class="form-group mt-3">
+      <textarea class="form-control" rows="3" placeholder="Type your message here" id="message-input"></textarea>
+    </div>
+    <button type="button" class="btn btn-primary" id="send-btn">Send</button>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.3/axios.min.js"></script>
-  <script src="app.js"></script>
+  <script>
+setInterval(highlightAll,1000);
+// Function to highlight code using highlight.js library
+function highlightAll() {
+  document.querySelectorAll("pre code").forEach(block => {
+    hljs.highlightBlock(block);
+  });
+}
 
+    const chatBox = document.querySelector(".chat-box");
+    const messageInput = document.querySelector("#message-input");
+    const sendBtn = document.querySelector("#send-btn");
+
+    function addMessage(message, isUserMessage) {
+      const messageDiv = document.createElement("div");
+      messageDiv.classList.add("mt-3", "p-3", "rounded");
+
+      if (isUserMessage) {
+        messageDiv.classList.add("user-message");
+
+      } else {
+        messageDiv.classList.add("bot-message");
+      }
+
+      messageDiv.innerHTML = `
+        <img src="{{ url_for('static', filename='images/user.png') }}" class="user-icon"><p>${message}</p>
+        `;
+
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+
+
+
+    function sendMessage() {
+      const message = messageInput.value.trim();
+
+      if (message !== "") {
+        addMessage(message, true);
+
+        fetch("/api", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        })
+          .then(response => response.json())
+          .then(data => {
+                      messageInput.value = "";
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("mt-3", "p-3", "rounded");
+            messageDiv.classList.add("bot-message");
+           
+            const content = data.content;
+            
+            // Check if the content has code block
+            const hasCodeBlock = content.includes("```");
+            if (hasCodeBlock) {
+              // If the content has code block, wrap it in a <pre><code> element
+              const codeContent = content.replace(/```([\s\S]+?)```/g, '</p><pre><code>$1</code></pre><p>');
+
+             
+              messageDiv.innerHTML = `<img src="{{ url_for('static', filename='images/gpt.jpg') }}" class="bot-icon"><p>${codeContent}</p>`
+             
+            }
+            else{
+              messageDiv.innerHTML = `<img src="{{ url_for('static', filename='images/gpt.jpg') }}" class="bot-icon"><p>${content}</p>`
+            }
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+          })
+          .catch(error => console.error(error));
+      }
+    }
+
+    
+    sendBtn.addEventListener("click", sendMessage);
+    messageInput.addEventListener("keydown", event => {
+      if (event.keyCode === 13 && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
   <!-- Footer -->
   <section id="contact" class="gradient-background">
     <div class="container ">
