@@ -7,7 +7,7 @@
   <title>Project Page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <link rel="stylesheet" href="./css/solution.css">
+  <link rel="stylesheet" href="../styles/solution.css">
 
   <style>
     .info-section {
@@ -73,15 +73,15 @@
     <div class="container col-xxl-8 px-4 pt-5">
       <div class="row flex-lg-row-reverse align-items-center g-5 pt-5">
         <div class="col-10 col-sm-8 col-lg-6">
-          <img src="./images/Nikolai_Tesla.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" height="200"
+          <img src="../assets/images/Nikolai_Tesla.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" height="200"
             loading="lazy">
         </div>
         <div class="col-lg-6">
           <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">"The present is theirs; the future, for which I
             really worked, is mine." - Nikola Tesla</h1>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <a href="About_Me.html" class="btn btn-light btn-lg px-4 me-md-2">About Me</a>
-            <a href="Other_Project.html" class="btn btn-outline-light btn-lg px-4">Other Projects</a>
+            <a href="../pages/About_Me.html" class="btn btn-light btn-lg px-4 me-md-2">About Me</a>
+            <a href="../pages/index.html" class="btn btn-outline-light btn-lg px-4">Home Page</a>
           </div>
           </div>
         </div>
@@ -89,12 +89,12 @@
     </div>
   </section>
 
-  <!-- Features -->
+  <!-- Features 1 -->
   <section id="features">
     <div class="container py-5">
       <div class="row align-items-center">
         <div class="col-md-6">
-          <img src="data_img\WorkFlow Prediction.png" class="img-fluid rounded feature-image" alt="Feature Image">
+          <img src="../assets/images/data_img/WorkFlow Prediction.png" class="img-fluid rounded feature-image" alt="Feature Image">
         </div>
         <div class="col-md-6">
           <h2 class="fw-bold">Enhancing Wind Energy Forecasting for Cost Efficiency in Hybrid Diesel and Solar Power Plants Using Artificial Neural Networks and Meteoblue Weather Data</h2>
@@ -109,7 +109,7 @@
           <p>The correlation heatmap highlights several key variables with a strong correlation (greater than 0.5) with wind speed at 100 meters. Notably, wind speeds at 10 and 100 meters exhibit a perfect positive correlation with each other (correlation coefficient of 1), indicating a consistent relationship across these altitudes. Wind gusts also show a strong positive correlation (0.87) with wind speed at 100 meters, suggesting that higher gust speeds are closely associated with higher average wind speeds at this height. Evapotranspiration has a significant positive correlation (0.75) with wind speed at 100 meters, indicating that increased wind speeds may enhance the evapotranspiration rate. Additionally, the Planetary Boundary Layer (PBL) height shows a moderate positive correlation (0.57) with wind speed at 100 meters, suggesting that higher PBL heights are associated with higher wind speeds. These strong correlations underscore the key variables influencing wind speed at 100 meters, providing valuable insights for wind energy forecasting and related applications.</p>
         </div>
         <div class="col-md-6">
-          <img src="data_img\filtered_correlation_heatmap.png" class="img-fluid rounded heatmap-image" alt="Heatmap Feature Image">
+          <img src="../assets/images/data_img/filtered_correlation_heatmap.png" class="img-fluid rounded heatmap-image" alt="Heatmap Feature Image">
         </div>
       </div>
     </div>
@@ -117,7 +117,7 @@
     <div class="container py-5">
       <div class="row align-items-center">
         <div class="col-md-6">
-          <img src="data_img\PredictionSample.png" class="img-fluid rounded prediction-sample-image" alt="Prediction Sample Image">
+          <img src="../assets/images/data_img/PredictionSample.png" class="img-fluid rounded prediction-sample-image" alt="Prediction Sample Image">
         </div>
         <div class="col-md-6">
           <p>The graph compares predicted wind speed values with actual wind speed data using an Artificial Neural Network (ANN) regression model. The predicted values closely mirror the data, indicating that the ANN model effectively captures the overall trend of wind speed fluctuations. The model accurately predicts most peaks and troughs, with only minor deviations in some instances. The predicted values are often nearly identical to the actual values, showcasing the model’s precision. There are minor discrepancies, particularly around data points 4 to 6 and 8 to 12, where the model slightly underestimates or overestimates the wind speed. However, these discrepancies are relatively insignificant. The close alignment between the predicted and actual data lines suggests that the ANN model has been well-trained using the selected features from the heatmap, which demonstrated strong correlations with wind speed. This indicates that the model has effectively leveraged these features to make accurate predictions. Overall, the ANN regression model demonstrates high accuracy in predicting wind speed, closely matching the actual data, with the selected features playing a crucial role in its effective training and reliable predictions. </p>
@@ -133,12 +133,13 @@
             </p>
         </div>
         <div class="col-md-6">
-          <img src="data_img\EvaluationTable.png" class="img-fluid rounded heatmap-image" alt="Heatmap Feature Image">
+          <img src="../assets/images/data_img/EvaluationTable.png" class="img-fluid rounded heatmap-image" alt="Heatmap Feature Image">
         </div>
       </div>
     </div>
-
   </section>
+
+  <!-- Features 2 -->
 
   <!-- Footer -->
   <section id="contact" class="gradient-background">
@@ -171,7 +172,6 @@
             <li class="nav-item mb-2"><a href="index.html" class="nav-link p-0 text-body-secondary">Home</a></li>
             <li class="nav-item mb-2"><a href="About_Me.html" class="nav-link p-0 text-body-secondary">About Me</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Other Projects</a></li>
-            <li class="nav-item mb-2"><a href="ChatGPT.html" class="nav-link p-0 text-body-secondary">ChatGPT</a></li>
           </ul>
         </div>
       </footer>

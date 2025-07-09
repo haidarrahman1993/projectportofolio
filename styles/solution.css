@@ -154,3 +154,7 @@ body {
   border-radius: 50%;
   margin-right: 10px;
 }
+
+.col-md-6 {
+  text-align: justify;
+}
