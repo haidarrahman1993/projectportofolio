@@ -161,8 +161,7 @@
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBbdG29X0Hr1bDlU31OjMp4jw8kjogx4tQ",
@@ -172,14 +171,8 @@
             messagingSenderId: "608679935317",
             appId: "1:608679935317:web:ec604e2f2b8cb5c5c7c3dc"
         };
-        let initialAuthToken = null;
-
-
-        let app;
-        let db;
-        let auth;
-        let currentUserId = null;
-        let isAuthReady = false; // Flag to indicate if auth state is ready
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
         const postTitleInput = document.getElementById('postTitle');
         const postContentInput = document.getElementById('postContent');
@@ -188,75 +181,28 @@
         const userIdDisplay = document.getElementById('userIdDisplay');
         const noPostsMessage = document.getElementById('noPostsMessage');
 
-        // Initialize Firebase and set up authentication
-        const initializeFirebase = async () => {
-            try {
-                if (Object.keys(firebaseConfig).length === 0) {
-                    console.error("Firebase config is empty.");
-                    userIdDisplay.textContent = "Error: Firebase not configured.";
-                    return;
-                }
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
+        // Hide user ID display - not needed without auth
+        userIdDisplay.style.display = 'none';
 
-                // Listen for authentication state changes
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        currentUserId = user.uid;
-                        userIdDisplay.textContent = `Your User ID: ${currentUserId}`;
-                        console.log("User signed in:", currentUserId);
-                        isAuthReady = true;
-                        // Start listening for posts after authentication is ready
-                        listenForPosts();
-                    } else {
-                        // Sign in anonymously if no user is found and no custom token is provided
-                        if (initialAuthToken) {
-                            try {
-                                await signInWithCustomToken(auth, initialAuthToken);
-                            } catch (error) {
-                                console.error("Error signing in with custom token:", error);
-                                userIdDisplay.textContent = "Error signing in with token. Falling back to anonymous.";
-                                await signInAnonymously(auth); // Fallback to anonymous
-                            }
-                        } else {
-                            await signInAnonymously(auth);
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error("Error initializing Firebase:", error);
-                userIdDisplay.textContent = `Error initializing Firebase: ${error.message}`;
-            }
-        };
-
-        // Function to save a new post to Firestore
+        // Function to save a new post to Firestore (no auth required)
         const savePost = async () => {
-            if (!isAuthReady || !currentUserId) {
-                console.warn("Authentication not ready or user ID not available. Cannot save post.");
-                // Provide a user-friendly message
-                alert("Please wait for the page to load and authenticate before saving a post.");
-                return;
-            }
-
             const title = postTitleInput.value.trim();
             const content = postContentInput.value.trim();
 
             if (!title || !content) {
-                alert("Please enter both a title and content for your post."); // Using alert for simplicity, but a custom modal is preferred in production.
+                alert("Silakan isi judul dan konten post terlebih dahulu.");
                 return;
             }
 
-            try {
-                // Define the collection path based on security rules (private data)
-                const postsCollectionRef = collection(db, "posts");
+            savePostBtn.textContent = 'Menyimpan...';
+            savePostBtn.disabled = true;
 
-                await addDoc(postsCollectionRef, {
+            try {
+                await addDoc(collection(db, "posts"), {
                     title: title,
                     content: content,
-                    // Use serverTimestamp() for accurate server-side timestamp
                     date: serverTimestamp(),
-                    userId: currentUserId // Store userId for filtering/display if needed
+                    author: "Haidar Rahman"
                 });
 
                 postTitleInput.value = '';
@@ -264,69 +210,52 @@
                 console.log("Post saved successfully!");
             } catch (error) {
                 console.error("Error saving post:", error);
-                alert("Failed to save post. Please try again.");
+                alert("Gagal menyimpan post: " + error.message);
+            } finally {
+                savePostBtn.textContent = 'Save Post';
+                savePostBtn.disabled = false;
             }
         };
 
-        // Function to display posts
+        // Function to display a single post
         const displayPost = (postData, postId) => {
             const postElement = document.createElement('div');
             postElement.id = `post-${postId}`;
             postElement.className = 'bg-gray-50 p-4 rounded-md shadow-sm border border-gray-200';
-
-            const date = postData.date ? new Date(postData.date.toDate()).toLocaleString() : 'N/A';
-
+            const date = postData.date ? new Date(postData.date.toDate()).toLocaleString() : 'Baru saja';
             postElement.innerHTML = `
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">${postData.title}</h3>
-                    <p class="text-gray-600 mb-3">${postData.content}</p>
-                    <p class="text-sm text-gray-500">Posted on: ${date} by ${postData.userId}</p>
-                `;
-            postsContainer.prepend(postElement); // Add new posts to the top
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">${postData.title}</h3>
+                <p class="text-gray-600 mb-3">${postData.content}</p>
+                <p class="text-sm text-gray-500">Diposting: ${date}</p>
+            `;
+            postsContainer.prepend(postElement);
         };
 
-        // Function to listen for real-time updates to posts
-        const listenForPosts = () => {
-            if (!db || !currentUserId) {
-                console.warn("Firestore not initialized or user ID not available. Cannot listen for posts.");
-                return;
-            }
+        // Listen for real-time post updates
+        const q = query(collection(db, "posts"));
+        onSnapshot(q, (snapshot) => {
+            postsContainer.innerHTML = '';
+            const posts = [];
+            snapshot.forEach((doc) => posts.push({ id: doc.id, ...doc.data() }));
 
-            // Query for posts belonging to the current user, ordered by date
-            const q = query(collection(db, "posts"));
-            // Note: orderBy is commented out as per instructions to avoid potential index issues.
-            // If sorting is critical, it should be done client-side after fetching.
-
-            onSnapshot(q, (snapshot) => {
-                // Clear existing posts to re-render
-                postsContainer.innerHTML = '';
-                const posts = [];
-                snapshot.forEach((doc) => {
-                    posts.push({ id: doc.id, ...doc.data() });
+            if (posts.length === 0) {
+                noPostsMessage.style.display = 'block';
+            } else {
+                noPostsMessage.style.display = 'none';
+                posts.sort((a, b) => {
+                    const dateA = a.date ? a.date.toDate().getTime() : 0;
+                    const dateB = b.date ? b.date.toDate().getTime() : 0;
+                    return dateB - dateA;
                 });
+                posts.forEach(post => displayPost(post, post.id));
+            }
+        }, (error) => {
+            console.error("Error:", error);
+            postsContainer.innerHTML = `<p class="text-center text-red-500">Error: ${error.message}</p>`;
+        });
 
-                if (posts.length === 0) {
-                    noPostsMessage.style.display = 'block';
-                } else {
-                    noPostsMessage.style.display = 'none';
-                    // Sort posts by date client-side if needed (e.g., newest first)
-                    posts.sort((a, b) => {
-                        const dateA = a.date ? a.date.toDate().getTime() : 0;
-                        const dateB = b.date ? b.date.toDate().getTime() : 0;
-                        return dateB - dateA; // Newest first
-                    });
-                    posts.forEach(post => displayPost(post, post.id));
-                }
-            }, (error) => {
-                console.error("Error listening to posts:", error);
-                postsContainer.innerHTML = `<p class="text-center text-red-500">Error loading posts: ${error.message}</p>`;
-            });
-        };
-
-        // Event listener for the save button
+        // Event listener for save button
         savePostBtn.addEventListener('click', savePost);
-
-        // Initialize Firebase when the window loads
-        window.onload = initializeFirebase;
     </script>
 </body>
 
