@@ -80,7 +80,7 @@
     <div class="container col-xxl-8 px-4 pt-5">
       <div class="row flex-lg-row-reverse align-items-center g-5 pt-5">
         <div class="col-10 col-sm-8 col-lg-6">
-          <img src="/assets/images/Nikolai_Tesla.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" height="200"
+          <img src="../assets/images/Nikolai_Tesla.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" height="200"
             loading="lazy">
         </div>
         <div class="col-lg-6">
@@ -101,7 +101,7 @@
     <div class="container py-5">
       <div class="row align-items-center">
         <div class="col-md-6 text-center">
-          <img src="/assets/images/data_img/WorkFlow Prediction.png" class="img-fluid rounded feature-image" alt="Feature Image">
+          <img src="../assets/images/data_img/WorkFlow Prediction.png" class="img-fluid rounded feature-image" alt="Feature Image">
           <p class="text-muted small">Proposed Research Workflow using ANN and Meteoblue Data</p>
         </div>
         <div class="col-md-6">
@@ -117,7 +117,7 @@
           <p>The correlation heatmap highlights several key variables with a strong correlation (greater than 0.5) with wind speed at 100 meters. Notably, wind speeds at 10 and 100 meters exhibit a perfect positive correlation with each other (correlation coefficient of 1), indicating a consistent relationship across these altitudes. Wind gusts also show a strong positive correlation (0.87) with wind speed at 100 meters, suggesting that higher gust speeds are closely associated with higher average wind speeds at this height. Evapotranspiration has a significant positive correlation (0.75) with wind speed at 100 meters, indicating that increased wind speeds may enhance the evapotranspiration rate. Additionally, the Planetary Boundary Layer (PBL) height shows a moderate positive correlation (0.57) with wind speed at 100 meters, suggesting that higher PBL heights are associated with higher wind speeds. These strong correlations underscore the key variables influencing wind speed at 100 meters, providing valuable insights for wind energy forecasting and related applications.</p>
         </div>
         <div class="col-md-6 text-center">
-          <img src="/assets/images/data_img/filtered_correlation_heatmap.png" class="img-fluid rounded heatmap-image" alt="Heatmap Feature Image">
+          <img src="../assets/images/data_img/filtered_correlation_heatmap.png" class="img-fluid rounded heatmap-image" alt="Heatmap Feature Image">
           <p class="text-muted small">Filtered Correlation Heatmap of Meteorological Variables</p>
         </div>
       </div>
@@ -126,7 +126,7 @@
     <div class="container py-5">
       <div class="row align-items-center">
         <div class="col-md-6 text-center">
-          <img src="/assets/images/data_img/PredictionSample.png" class="img-fluid rounded prediction-sample-image" alt="Prediction Sample Image">
+          <img src="../assets/images/data_img/PredictionSample.png" class="img-fluid rounded prediction-sample-image" alt="Prediction Sample Image">
           <p class="text-muted small">Comparison of Actual vs Predicted Wind Speed Values</p>
         </div>
         <div class="col-md-6">
@@ -143,7 +143,7 @@
             </p>
         </div>
         <div class="col-md-6 text-center">
-          <img src="/assets/images/data_img/EvaluationTable.png" class="img-fluid rounded heatmap-image" alt="Heatmap Feature Image">
+          <img src="../assets/images/data_img/EvaluationTable.png" class="img-fluid rounded heatmap-image" alt="Heatmap Feature Image">
           <p class="text-muted small">Comparison of Performance Metrics across Machine Learning Models</p>
         </div>
       </div>
@@ -160,7 +160,7 @@
           <p>The implementation begins with the deep learning phase, Specifically, the <strong>Training and Validation Loss Curve</strong> visualizes the reduction of the Mean Squared Error (MSE) during the learning process over 50 epochs. The results show a steady and consistent convergence, where the validation loss remains in close proximity to the training loss. This stability is critical as it indicates that the model has effectively generalized the consumption features rather than over-fitting to noise, providing a robust mathematical foundation for identifying future deviations in energy consumption behavior.</p>
         </div>
         <div class="col-md-6 text-center">
-          <img src="/assets/images/data_img/loss_autoencoder.png" class="img-fluid rounded autoencoder-image" alt="Training and Validation Loss">
+          <img src="../assets/images/data_img/loss_autoencoder.png" class="img-fluid rounded autoencoder-image" alt="Training and Validation Loss">
           <p class="text-muted small">Training and Validation Loss Curve</p>
         </div>
       </div>
@@ -169,7 +169,7 @@
     <div class="container py-5">
       <div class="row align-items-center">
         <div class="col-md-6 text-center">
-          <img src="/assets/images/data_img/normal_autoencoder.png" class="img-fluid rounded autoencoder-image" alt="Normal Data Comparison">
+          <img src="../assets/images/data_img/normal_autoencoder.png" class="img-fluid rounded autoencoder-image" alt="Normal Data Comparison">
           <p class="text-muted small">Normal Test Data vs Decoder Output (Low Reconstruction Error)</p>
         </div>
         <div class="col-md-6">
@@ -184,7 +184,7 @@
           <p>The core strength of the Autoencoder approach is revealed when the system is challenged with abnormal usage patterns, such as those caused by meter bypassing or unauthorized technical malfunctions. Because the model was never exposed to these erratic patterns during its training phase, it fails to find an efficient compressed representation for them. Consequently, the Decoder attempts to reconstruct the input based on its "normal" logic, resulting in a dramatic and sustained discrepancy between the Input (Blue) and the Output (Red). This high reconstruction error is a clear indicator of fraudulent activity or hardware failure, allowing utility providers to move from random inspections to targeted, evidence-based forensic investigations.</p>
         </div>
         <div class="col-md-6 text-center">
-          <img src="/assets/images/data_img/abnormal_autoencoder.png" class="img-fluid rounded autoencoder-image" alt="Abnormal Data Comparison">
+          <img src="../assets/images/data_img/abnormal_autoencoder.png" class="img-fluid rounded autoencoder-image" alt="Abnormal Data Comparison">
           <p class="text-muted small">Abnormal Test Data vs Decoder Output (High Reconstruction Error)</p>
         </div>
       </div>
@@ -193,7 +193,7 @@
     <div class="container py-5">
         <div class="row align-items-center">
           <div class="col-md-6 text-center">
-            <img src="/assets/images/data_img/abnormal_autoencoder_long.png" class="img-fluid rounded autoencoder-image" alt="Abnormal Data Long Duration">
+            <img src="../assets/images/data_img/abnormal_autoencoder_long.png" class="img-fluid rounded autoencoder-image" alt="Abnormal Data Long Duration">
             <p class="text-muted small">Extended Comparison of Abnormal Test Data and Decoder Output</p>
           </div>
           <div class="col-md-6">
@@ -208,7 +208,7 @@
             <p>The overall efficacy of the machine learning model is empirically summarized in the <strong>Confusion Matrix</strong>. This matrix details the distribution of True Positives, True Negatives, False Positives, and False Negatives obtained after applying the classification threshold. With a high number of True Positives (correctly identified anomalies) and a very low rate of False Positives, the model demonstrates high precision and recall. This empirical validation ensures that utility providers can trust the system's alerts for real-world grid monitoring, effectively catching theft while avoiding expensive and unnecessary field inspections caused by false alarms.</p>
           </div>
           <div class="col-md-6 text-center">
-            <img src="/assets/images/data_img/confusion_matrix.png" class="img-fluid rounded autoencoder-image" alt="Confusion Matrix">
+            <img src="../assets/images/data_img/confusion_matrix.png" class="img-fluid rounded autoencoder-image" alt="Confusion Matrix">
             <p class="text-muted small">Confusion Matrix for Anomaly Detection Performance</p>
           </div>
         </div>
