@@ -164,26 +164,15 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global variables provided by the Canvas environment
-        let appId = 'default-app-id'; // Default value
-        let firebaseConfig = {}; // Default empty object
-        let initialAuthToken = null; // Default null
-
-        // Attempt to get environment variables, with robust parsing
-        try {
-            if (typeof __app_id !== 'undefined' && __app_id !== null) {
-                appId = __app_id;
-            }
-            if (typeof __firebase_config !== 'undefined' && __firebase_config !== null && __firebase_config.trim() !== '') {
-                firebaseConfig = JSON.parse(__firebase_config);
-            }
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token !== null) {
-                initialAuthToken = __initial_auth_token;
-            }
-        } catch (e) {
-            console.error("Error parsing Firebase environment variables:", e);
-            // Fallback to defaults, and the Firebase initialization will handle the empty config
-        }
+        const firebaseConfig = {
+            apiKey: "AIzaSyBbdG29X0Hr1bDlU31OjMp4jw8kjogx4tQ",
+            authDomain: "portofolio-haidar-2da6a.firebaseapp.com",
+            projectId: "portofolio-haidar-2da6a",
+            storageBucket: "portofolio-haidar-2da6a.firebasestorage.app",
+            messagingSenderId: "608679935317",
+            appId: "1:608679935317:web:ec604e2f2b8cb5c5c7c3dc"
+        };
+        let initialAuthToken = null;
 
 
         let app;
@@ -202,11 +191,10 @@
         // Initialize Firebase and set up authentication
         const initializeFirebase = async () => {
             try {
-                // Check if firebaseConfig is truly empty after parsing
                 if (Object.keys(firebaseConfig).length === 0) {
-                    console.error("Firebase config is empty. Cannot initialize Firebase. Please ensure __firebase_config is set correctly.");
-                    userIdDisplay.textContent = "Error: Firebase not configured. Check environment variables.";
-                    return; // Stop initialization if config is invalid
+                    console.error("Firebase config is empty.");
+                    userIdDisplay.textContent = "Error: Firebase not configured.";
+                    return;
                 }
                 app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
@@ -261,7 +249,7 @@
 
             try {
                 // Define the collection path based on security rules (private data)
-                const postsCollectionRef = collection(db, `artifacts/${appId}/users/${currentUserId}/posts`);
+                const postsCollectionRef = collection(db, "posts");
 
                 await addDoc(postsCollectionRef, {
                     title: title,
@@ -304,7 +292,7 @@
             }
 
             // Query for posts belonging to the current user, ordered by date
-            const q = query(collection(db, `artifacts/${appId}/users/${currentUserId}/posts`));
+            const q = query(collection(db, "posts"));
             // Note: orderBy is commented out as per instructions to avoid potential index issues.
             // If sorting is critical, it should be done client-side after fetching.
 
