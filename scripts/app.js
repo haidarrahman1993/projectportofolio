@@ -40,6 +40,9 @@ app.use('/styles', express.static(path.join(__dirname, '..', 'styles'))); // '..
 // This means image files will be accessed like http://localhost:3000/assets/image.png
 app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
 
+// Serve files from 'pages' folder under the '/pages' path
+app.use('/pages', express.static(path.join(__dirname, '..', 'pages')));
+
 
 // In-memory "database" for posts
 let posts = [
